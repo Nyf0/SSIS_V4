@@ -1,0 +1,25 @@
+/* Add student icon */
+.floating-icon {
+    position: fixed;
+    bottom: 87px;
+    right: 105px;
+    background-color: #0a67f3;
+    color: white;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease;
+}
+
+.floating-icon:hover,
+.floating-icon:active {
+    transform: scale(1.1);
+}
+
+.floating-icon i {
+    font-size: 35px;
+}

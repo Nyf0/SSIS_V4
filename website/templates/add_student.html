@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block title %}Add Student{% endblock %}
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    <h3 align="center">Add student</h3>
+    {{ form.hidden_tag() }}
+    
+    <div class="form-group">
+        {{ form.id.label }}:
+        {{ form.id(class="form-control", pattern="\d{4}-\d{4}", title="Enter a valid ID in the format YYYY-NNNN", placeholder="YYYY-NNNN", required=True) }}
+        {% for error in form.id.errors %}
+            <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>
+    
+    <div class="form-group">
+        {{ form.fname.label }}:
+        {{ form.fname(class="form-control", placeholder="Enter first name", required=True) }}
+        {% for error in form.fname.errors %}
+            <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>
+    
+    <div class="form-group">
+        {{ form.lname.label }}:
+        {{ form.lname(class="form-control", placeholder="Enter last name", required=True) }}
+        {% for error in form.lname.errors %}
+            <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>
+    
+    <div class="form-group">
+        {{ form.course.label }}:
+        <select class="form-control" name="{{ form.course.name }}" required>
+            {% for choice in form.course.choices %}
+                <option value="{{ choice[0] }}" {% if choice[0] == form.course.data %}selected{% endif %}>
+                    {{ choice[1] }}
+                </option>
+            {% endfor %}
+        </select>
+        
+        <!-- Hidden input field to store course code -->
+        <input type="hidden" name="course_code" value="{{ form.course.data }}">
+        
+        {% for error in form.course.errors %}
+            <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>  
+    
+    <div class="form-group">
+        {{ form.gender.label }}: 
+        <div class="form-check">
+            {% for choice in form.gender %}
+                <input class="form-check-input" type="radio" name="{{ form.gender.name }}" id="{{ choice.id }}" value="{{ choice.data }}" {% if choice.checked %}checked{% endif %}>
+                <label class="form-check-label mr-5" for="{{ choice.id }}">
+                    {{ choice.label }}
+                </label>
+            {% endfor %}
+        </div>
+        {% for error in form.gender.errors %}
+            <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>    
+    
+    <div class="form-group">
+        {{ form.level.label }}: 
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            {% for choice in form.level %}
+                <label class="btn btn-secondary">
+                    <input type="radio" name="{{ form.level.name }}" id="{{ choice.id }}" value="{{ choice.data }}" {% if choice.checked %}checked{% endif %}>
+                    {{ choice.label }}
+                </label>
+            {% endfor %}
+        </div>
+        {% for error in form.level.errors %}
+            <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>
+    
+    <div class="form-group position-relative">
+        <p>Profile: </p>
+        <div id="image-preview-container" class="mt-3" style="position: relative;">
+            <div id="image-preview" style="width: 250px; height: 200px; border: 2px solid #ccc; cursor: pointer; position: relative; text-align: center;">
+                <button class="btn z-5" type="button" id="clearFiles" style="visibility: hidden;">&times;</button>
+                <img id="uploadIcon" src="{{ url_for('static', filename='img/UploadIcon.png') }}" style="width: 150px; height: 150px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);" loading="lazy">
+                <a id="uploadCaption" style="position: absolute; bottom: 10px; left: 0; right: 0; color: #666; opacity: 0.8;">Upload img here...</a>
+            </div>
+            {{ form.pic(class="d-none", multiple="multiple", id="pic") }}
+            {% for error in form.pic.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor %}
+        </div>
+    </div>
+    
+    
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<script>
+    document.getElementById('image-preview').addEventListener('click', function() {
+        document.getElementById('pic').click();
+    });
+    
+    document.getElementById('pic').addEventListener('change', function(event) {
+        var preview = document.getElementById('image-preview');
+        preview.innerHTML = ''; // Clear previous preview
+    
+        var files = event.target.files;
+        for (var i = 0; i < files.length; i++) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'img-fluid'; // Make the image responsive (optional)
+    
+                // Ensure the image stays within the boundaries of the preview area
+                img.style.maxWidth = '100%';
+                img.style.maxHeight = '100%';
+    
+                preview.appendChild(img);
+            };
+            reader.readAsDataURL(files[i]);
+        }
+    
+        // Show the clear button
+        document.getElementById('clearFiles').style.visibility = 'visible';
+    });
+    
+    // Clear files and hide the clear button
+    document.getElementById('clearFiles').addEventListener('click', function() {
+        var preview = document.getElementById('image-preview');
+        var fileInput = document.getElementById('pic');
+    
+        // Clear preview
+        preview.innerHTML = '';
+    
+        // Clear input value (reset input)
+        fileInput.value = '';
+    
+        // Hide the clear button
+        document.getElementById('clearFiles').style.visibility = 'hidden';
+    });
+    </script>    
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock%}
+{% block content %}
+{% if students %}
+    <h1>Students</h1>
+    <table class="table" id="students">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Course</th>
+            <th scope="col">College</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Year Level</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}  
+            <tr>
+                <td>{{student[0]}}</td>
+                <td>{{student[1]}}</td>
+                <td>{{student[2]}}</td>
+                <td>{{student[3]}}</td>
+                <td>{{student[7]}}({{student[6]}})</td> 
+                <td>{{student[4]}}</td> 
+                <td>{{student[5]}}</td>      
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+{% if courses %}
+    <h1>Courses</h1>
+    <table class="table" id="courses">
+        <thead>
+        <tr>
+            <th scope="col">Course code</th>
+            <th scope="col">Course Name</th>
+            <th scope="col">College</th>
+        </tr>
+        </thead>
+        <tbody>  
+            {% for course in courses %}  
+            <tr>
+                <td>{{course[0]}}</td>
+                <td>{{course[1]}}</td>
+                <td>{{course[2]}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+{% if colleges %}
+    <h1>Colleges</h1>
+    <table class="table" id="colleges">
+        <thead>
+        <tr>
+            <th scope="col">College code</th>
+            <th scope="col">College Name</th>
+        </tr>
+        </thead>
+        <tbody>  
+            {% for college in colleges %}  
+            <tr>
+                <td>{{college[0]}}</td>
+                <td>{{college[1]}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+{% endblock %}

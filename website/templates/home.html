@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock%}
+{% block content %}
+<h1>Students</h1>
+<table class="table" id="students">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">ID</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Year Level</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for student in students %}  
+        <tr>
+            <td><img loading="lazy" class="img rounded-pill" src="{{ student[1] }}" alt="Profile Picture" style="height: 65px; width: 65px; margin-right: 10px;" /></a></td>
+            <td>{{student[0]}}</td>
+            <td>{{student[2]}}</td>
+            <td>{{student[3]}}</td>
+            <td>{{student[6]}}</td>      
+        </form>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="form-group" align="right">
+    <button type="button" class="btn btn-primary" align="right" onclick="location.href='/students'">See all students</button>
+</div>
+<h1>Courses</h1>
+<table class="table" id="courses">
+    <thead>
+      <tr>
+        <th scope="col">Course code</th>
+        <th scope="col">Course Name</th>
+      </tr>
+    </thead>
+    <tbody>  
+        {% for course in courses %}  
+        <tr>
+            <td>{{course[0]}}</td>
+            <td>{{course[1]}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="form-group" align="right">
+    <button type="button" class="btn btn-primary" align="right" onclick="location.href='/courses'">See all courses</button>
+</div>
+<h1>Colleges</h1>
+<table class="table" id="colleges">
+    <thead>
+      <tr>
+        <th scope="col">College code</th>
+        <th scope="col">College Name</th>
+      </tr>
+    </thead>
+    <tbody>  
+        {% for college in colleges %}  
+        <tr>
+            <td>{{college[0]}}</td>
+            <td>{{college[1]}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="form-group" align="right">
+    <button type="button" class="btn btn-primary" align="right" onclick="location.href='/colleges'">See all colleges</button>
+</div>
+
+{% endblock %}

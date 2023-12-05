@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Student Details{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h1>Student Details</h1>
+    {% if student %}
+    <div class="card mt-4">
+        <img img loading="lazy" class="img rounded-pill mx-auto" src="{{ student[1] }}" alt="Student Image" style="width: 200px; height: 200px;">
+        <div class="card-body">
+            <h5 class="card-title">Student ID: {{ student[0] }}</h5>
+            <p class="card-text">First Name: {{ student[2] }}</p>
+            <p class="card-text">Last Name: {{ student[3] }}</p>
+            <p class="card-text">Gender: {{ student[5] }}</p>
+            <p class="card-text">Year Level: {{ student[6] }}</p>
+            <p class="card-text">Course: {{ student[4] }} - {{ student[7] }}</p>
+            <p class="card-text">College: {{ student[9] }} ({{ student[8] }})</p>
+        </div>
+    </div>
+    {% else %}
+    <p class="text-danger">Student not found or an error occurred.</p>
+    {% endif %}
+</div>
+{% endblock %}

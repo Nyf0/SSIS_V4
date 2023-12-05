@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Students{% endblock %}
+{% block content %}
+<a href="/students/add-student">
+  <div class="floating-icon">
+    <i class="fa fa-solid fa-plus"></i>
+  </div>
+</a>
+<table class="table" id="students">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">ID</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Course</th>
+        <th scope="col">College</th>
+        <th scope="col">Gender</th>
+        <th scope="col">Year Level</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for detail in studentdetails %}  
+        <tr>
+            <td><img loading="lazy" class="img rounded-pill" src="{{ detail[0] }}" alt="Profile Picture" style="height: 65px; width: 65px; margin-right: 10px;" /></a></td>
+            <td>{{detail[1]}}</td>
+            <td>{{detail[2]}}</td>
+            <td>{{detail[3]}}</td>
+            <td>{{detail[4]}}</td>
+            <td>{{detail[8]}}({{detail[7]}})</td>
+            <td>{{detail[5]}}</td>
+            <td>{{detail[6]}}</td>
+            <td>
+              <a href="{{url_for('student.read',id=detail[1])}}"><button type="submit" class="btn btn-info"> > </button></a>
+            </td>            
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
