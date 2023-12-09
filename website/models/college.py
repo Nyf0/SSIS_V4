@@ -31,7 +31,7 @@ class College(object):
     
     def search(key):
         cur = mysql.connection.cursor()
-        colquery = f"SELECT * FROM colleges WHERE code LIKE '{key}' OR name LIKE '%{key}%'"
+        colquery = f"SELECT * FROM colleges WHERE code = '{key}' OR name LIKE '%{key}%'"
         cur.execute(colquery)
         results = cur.fetchall()
         return results

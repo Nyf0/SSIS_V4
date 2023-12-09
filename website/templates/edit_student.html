@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+{% block title %}Edit Student{% endblock %}
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    <h3 align="center">Modify student details</h3>
+    {{ form.hidden_tag() }}
+    
+    <div class="form-group">
+        {{ form.id.label }}:
+        {{ form.id(class="form-control", pattern="\d{4}-\d{4}", title="Enter a valid ID in the format YYYY-NNNN", placeholder="YYYY-NNNN", required=True) }}
+        {% for error in form.id.errors %}
+            <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>
+    
+    <div class="form-group">
+        {{ form.fname.label }}:
+        {{ form.fname(class="form-control", placeholder="Enter first name", required=True) }}
+        {% for error in form.fname.errors %}
+            <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>
+    
+    <div class="form-group">
+        {{ form.lname.label }}:
+        {{ form.lname(class="form-control", placeholder="Enter last name", required=True) }}
+        {% for error in form.lname.errors %}
+            <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>
+    
+    <div class="form-group">
+        {{ form.course.label }}:
+        <select class="form-control" name="{{ form.course.name }}" required>
+            {% for choice in form.course.choices %}
+                <option value="{{ choice[0] }}" {% if choice[0] == form.course.data %}selected{% endif %}>
+                    {{ choice[1] }}
+                </option>
+            {% endfor %}
+        </select>
+        
+        <!-- Hidden input field to store course code -->
+        <input type="hidden" name="course_code" value="{{ form.course.data }}">
+        
+        {% for error in form.course.errors %}
+            <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>  
+    
+    <div class="form-group">
+        {{ form.gender.label }}: 
+        <div class="form-check">
+            {% for choice in form.gender %}
+                <input class="form-check-input" type="radio" name="{{ form.gender.name }}" id="{{ choice.id }}" value="{{ choice.data }}" {% if choice.checked %}checked{% endif %}>
+                <label class="form-check-label mr-5" for="{{ choice.id }}">
+                    {{ choice.label }}
+                </label>
+            {% endfor %}
+        </div>
+        {% for error in form.gender.errors %}
+            <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>    
+    
+    <div class="form-group">
+        {{ form.level.label }}: 
+        <div class="form-check">
+            {% for choice in form.level %}
+                <input class="form-check-input" type="radio" name="{{ form.level.name }}" id="{{ choice.id }}" value="{{ choice.data }}" {% if choice.data == form.level.data %}checked{% endif %}>
+                <label class="form-check-label mr-5" for="{{ choice.id }}">
+                    {{ choice.label }}
+                </label>
+            {% endfor %}
+        </div>
+        {% for error in form.level.errors %}
+            <span class="text-danger">{{ error }}</span>
+        {% endfor %}
+    </div>
+    
+   <!-- Profile Container -->
+   <div class="form-group" style="display: flex; align-items: center;">
+    <label for="profile_pic">Profile:</label>
+        <div class="file-upload-container" style="margin-left: 10px; display: flex; align-items: center;">
+            {{ form.pic.label }}
+            {{ form.pic(id="profile_pic", class="form-control", style="display: none;") }}
+            <img loading="lazy" id="profile-pic-preview" src="{{ form.pic.data or pic }}" alt="Profile Picture Preview" class="profile-pic-edit img-thumbnail">
+            <div style="margin-left: auto;">
+                <button type="button" onclick="document.getElementById('profile_pic').click();" class="btn btn-secondary btn-sm" style="opacity: 0.65; margin-top: 10px;">
+                    <i class="fa fa-camera"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+<button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
+
+</form>
+
+<!-- Add this script at the end of your HTML document -->
+<script>
+$(document).ready(function() {
+    // Handle file input change event
+    $('#profile_pic').change(function() {
+        readURL(this);
+    });
+
+    // Function to read and display the selected file in the preview area
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                $('#profile-pic-preview').attr('src', e.target.result);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+});
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle form submission
+        document.getElementById('submitBtn').addEventListener('click', function(event) {
+            // Display a confirmation dialog
+            var confirmation = confirm("Are you sure you want to modify these details?");
+            
+            // If the user confirms, continue with the form submission
+            if (!confirmation) {
+                event.preventDefault(); // Cancel the form submission
+            }
+        });
+    });
+</script>
+
+{% endblock %}

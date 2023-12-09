@@ -14,17 +14,15 @@ class Course(object):
         mysql.connection.commit()
         cur.close()
 
-    @classmethod
-    def all(cls):
+    def all():
         cursor = mysql.connection.cursor()
 
         sql = "SELECT * FROM courses"
         cursor.execute(sql)
         results = cursor.fetchall()
 
-        courses = [cls(code=row[0], name=row[1], college=row[2]) for row in results]
         cursor.close()
-        return courses
+        return results
     
     def show(self):
         cur = mysql.connection.cursor()
@@ -34,7 +32,7 @@ class Course(object):
     
     def search(key):
         cur = mysql.connection.cursor()
-        corquery = f"SELECT * FROM courses WHERE code LIKE '{key}' OR name LIKE '%{key}%' OR college LIKE '%{key}%'"
+        corquery = f"SELECT * FROM courses WHERE code = '{key}' OR name LIKE '%{key}%' OR college LIKE '%{key}%'"
         cur.execute(corquery)
         results = cur.fetchall()
         return results

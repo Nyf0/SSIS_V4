@@ -1,9 +1,137 @@
-/* Add student icon */
+/* User Profile */
+/* ProfilePic and CoverPic */
+.profile-pic {
+    position: absolute;
+    margin-top: -90px;
+    width: 150px;
+    height: 145px;
+    border: 5px solid white;
+}
+
+.cover-pic-container {
+    height: 250px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}   
+
+.cover-pic {
+    width: 100%;
+    height: 100%;
+}
+
+/* link in bio */
+.link a:hover {
+    border-bottom: 1px solid darkblue;
+}
+
+/* Navbar: Posts, Liked, and Saved */
+.nav {
+    background-color: #ffffff;
+    overflow: hidden;
+    border-top: 1px solid #ccd0d5;
+    margin-top: 35px;
+}
+
+.nav a {
+    color: #000000;
+    text-align: center;
+    padding: 14px 160px;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.nav a:hover {
+    border-top: 2px solid #eec3b4;
+    color: #eec3b4;
+    transition: opacity 0.3s ease;
+}
+
+.nav a.active {
+    border-top: 2px solid #D17A5E;
+    color: #D17A5E;
+}
+
+.baseFlash {
+    opacity: 0;
+    display: none;
+}
+
+.d-flex a {
+    color: black;
+    text-decoration: none;
+}
+
+/* User Posts Gallery */
+.img-container {
+    margin-top: 2%;
+    margin-bottom: 10%;
+}
+
+.col-lg-3 {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+    background: rgba(84, 84, 84, 0.407);
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    opacity: 0;
+    pointer-events: none; 
+    transition: opacity 0.3s ease;
+}
+
+.image-container:hover .image-overlay {
+    opacity: 1;
+}
+
+.overlay-link {
+    pointer-events: auto;
+}
+
+.image-overlay i {
+    color: white;
+    font-size: 21px;
+    margin-bottom: 28px;
+    margin-right: 20px;
+    transition: transform 0.3s ease; 
+}
+
+.image-overlay i:hover {
+    transform: scale(1.1);
+}
+
+.gallery-image {
+    object-fit: cover;
+    width: 100%;
+    height: 200px;
+}
+
+.gallery-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Create post icon */
 .floating-icon {
     position: fixed;
     bottom: 87px;
     right: 105px;
-    background-color: #0a67f3;
+    background-color: #052afa;
     color: white;
     width: 60px;
     height: 60px;
@@ -23,3 +151,145 @@
 .floating-icon i {
     font-size: 35px;
 }
+
+/* Edit Profile */
+.sidenav a:hover {
+    border-bottom: 2px solid #2a2a2a;
+    transition: transform 0.3s ease;
+}
+
+.nav-item a.active {
+    font-weight: bold;
+}
+
+.edit-profile-header {
+    position: relative;
+    margin-top: 70px;
+}
+
+.edit-profile-body {
+    position: relative;
+    margin-top: 0px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+.message-text-error {
+    background-color: none;
+    color: rgb(206, 84, 84);
+    font-size: 14px;
+    text-indent: 5px;
+    margin-top: -12px;
+}
+
+.cover-pic-edit {
+    position: static;
+    margin-top: 7px;
+    margin-bottom: 60px;
+    margin-left: 0;
+    width: 500px;
+    height: 150px;
+    border: none;
+    overflow: hidden;
+}
+
+.profile-pic-edit {
+    position: absolute;
+    margin-top: -120px;
+    margin-left: 205px;
+    width: 100px;
+    height: 100px;
+    border: none;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.bio-text {
+    max-width: 415px;
+    word-wrap: break-word;
+    margin: 0 auto;
+    white-space: pre-line;
+  }
+
+textarea {
+    resize: none;
+    max-height: 200px;
+}
+
+.userTop{
+    position:relative;
+}
+.userTop .followBtn {
+
+    position: absolute;
+    top: 55%;
+    left: 90%;
+    width:11%;
+    height:33px;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.userTop .followBtn:hover {
+    box-shadow: 0px 0px 10px 0px #D17A5E;
+
+}
+/* Add this to your CSS file or style tag */
+.overlay-link {
+    background: none;
+    border: none;
+}
+
+.delete-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.custom-dropdown-menu {
+    width: auto !important;
+    display: block !important;
+}
+
+.underline-text {
+    /* Set the color to black */
+    color: black;
+    /* Set the underline color to black */
+    text-decoration-color: #D17A5E;
+    /* Set the thickness of the underline */
+    border-bottom: 2px solid #D17A5E;
+    /* Optionally, you can adjust the space between the text and the underline */
+    padding-bottom: 2px;
+}
+
+/* Add this to your existing CSS */
+.file-upload-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px; /* Adjust the margin-top as needed */
+}
+
+#profile-pic-preview {
+    max-width: 100px; /* Adjust the max-width as needed */
+    max-height: 100px; /* Adjust the max-height as needed */
+    margin-top: 0; /* Adjust the margin-top as needed */
+    margin-left: 10px; /* Adjust the margin-left as needed */
+}
+
+.file-upload-container button {
+    margin-left: auto; /* Auto margin to push the button to the right */
+}
+
+

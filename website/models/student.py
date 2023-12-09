@@ -1,5 +1,5 @@
-from flask import url_for
 from website import mysql
+import re
 
 class Student(object):
     def __init__(self, id=None, pic=None, fname=None, lname=None, course=None, gender=None, level=None):
@@ -38,13 +38,22 @@ class Student(object):
     
     def search(key):
         cur = mysql.connection.cursor()
-        studquery = f"SELECT students.student_id, students.fname, students.lname, students.course, students.gender, students.level, colleges.code, colleges.name FROM students INNER JOIN courses ON students.course = courses.code INNER JOIN colleges ON courses.college = colleges.code WHERE students.student_id LIKE '{key}' OR students.fname LIKE '%{key}%' OR students.lname LIKE '%{key}%' OR students.course LIKE '{key}' OR students.gender LIKE '{key}' OR students.level LIKE '{key}'"
+        studquery = f"SELECT students.student_id, students.fname, students.lname, students.course, students.gender, students.level, colleges.code, colleges.name FROM students INNER JOIN courses ON students.course = courses.code INNER JOIN colleges ON courses.college = colleges.code WHERE students.student_id = '{key}' OR students.fname LIKE '%{key}%' OR students.lname LIKE '%{key}%' OR students.course = '{key}' OR students.gender = '{key}' OR students.level = '{key}' OR colleges.code = '{key}' OR colleges.name LIKE '{key}'"
         cur.execute(studquery)
         results = cur.fetchall()
         cur.close()
         return results
     
     def fetch(id):
+        cur = mysql.connection.cursor()
+        query = "SELECT * FROM students WHERE student_id = %s"
+        cur.execute(query,(id,))
+        stud = cur.fetchone()
+        cur.close()
+
+        return stud
+    
+    def view(id):
         cur = mysql.connection.cursor()
         query = """
             SELECT students.*, courses.name AS course_name, colleges.code AS college_code, colleges.name AS college_name 
@@ -94,11 +103,11 @@ class Student(object):
         except:
             return False
         
-    def edit(self):
+    def edit(self, old_id):
         try:
             cursor = mysql.connection.cursor()
-            sql = f"UPDATE students SET fname = '{self.fname}', lname = '{self.lname}', course = '{self.course}', gender = '{self.gender}', level = '{self.level}' WHERE student_id = '{self.id}'"
-            cursor.execute(sql)
+            sql = "UPDATE students SET student_id = %s, pic = %s, fname = %s, lname = %s, course = %s, gender = %s, level = %s WHERE student_id = %s"
+            cursor.execute(sql,(self.id,self.pic,self.fname,self.lname,self.course,self.gender,self.level,old_id,))
             mysql.connection.commit()
             cursor.close()
             return True
@@ -106,16 +115,29 @@ class Student(object):
             print(e)
             return False
         
-    def editID(self, newID):
+    def edit_without(self, old_id):
         try:
             cursor = mysql.connection.cursor()
-            sql = f"UPDATE students SET student_id = '{newID}' WHERE student_id = '{self.id}'"
-            cursor.execute(sql)
+            sql = "UPDATE students SET student_id = %s, fname = %s, lname = %s, course = %s, gender = %s, level = %s WHERE student_id = %s"
+            cursor.execute(sql,(self.id,self.fname,self.lname,self.course,self.gender,self.level,old_id,))
             mysql.connection.commit()
             cursor.close()
             return True
         except Exception as e:
             print(e)
             return False
+        
+    def get_public_id_from_url(url):
+        match = re.search(r'/v\d+/(SSIS/[^/]+)\.\w+', url)  # Updated for the presence of digits after /v
+
+        return match.group(1) if match else None
+
+    def get_pic(id):
+        cur = mysql.connection.cursor()
+        sql = "SELECT pic FROM students WHERE student_id = %s"
+        cur.execute(sql,(id,))
+        pic = cur.fetchone()
+        cur.close()
+        return pic
     
 
