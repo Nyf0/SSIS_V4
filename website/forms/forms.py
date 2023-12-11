@@ -11,7 +11,7 @@ def validate_id_format(form, field):
 
 class studentForm(FlaskForm):
     id = StringField('ID', validators=[validators.DataRequired(), validate_id_format])
-    pic = FileField('Profile', validators=[FileAllowed(['jpg', 'jpeg', 'png']), validators.DataRequired()])
+    pic = FileField('Profile', validators=[FileAllowed(['jpg', 'jpeg', 'png'])])
     fname = StringField('First name', validators=[validators.DataRequired(message="This cannot be empty!"), validators.Length(min=3, max=255, message="First name must be at least 3 characters")])
     lname = StringField('Last name', validators=[validators.DataRequired(message="This cannot be empty!"), validators.Length(min=3, max=255, message="Last name must be at least 3 characters")])
     course = SelectField('Course', [validators.DataRequired(message="Must choose a course!")], choices=[], widget=widgets.ListWidget(prefix_label=False))

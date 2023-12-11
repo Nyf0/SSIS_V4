@@ -6,9 +6,9 @@ from website.models.college import College
 @course.route('/courses')
 def curs():
     courses = Course.all()
-    print(courses)
+    #print(courses)
     colleges = College.all()
-    print(colleges)
+    #print(colleges)
 
     return render_template("courses.html", coursedetails=courses, colleges = colleges)
 

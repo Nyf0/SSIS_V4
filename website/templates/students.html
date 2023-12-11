@@ -6,6 +6,12 @@
     <i class="fa fa-solid fa-plus"></i>
   </div>
 </a>
+
+<!-- Add the search bar -->
+<div class="mb-3">
+  <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+</div>
+
 <table class="table" id="students">
     <thead>
       <tr>
@@ -38,4 +44,55 @@
         {% endfor %}
     </tbody>
 </table>
+
+<!-- Add JavaScript for filtering -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOMContentLoaded event fired');
+    var searchInput = document.getElementById('searchInput');
+  
+    if (searchInput) {
+      searchInput.addEventListener('input', function() {
+        searchTable();
+      });
+    }
+  });  
+
+  function searchTable() {
+    var input, filter, table, rows, cells, i, j, txtValue;
+    input = document.getElementById('searchInput');
+    filter = input.value.toUpperCase();
+    table = document.getElementById('students');
+  
+    if (!table) return;
+  
+    rows = table.querySelectorAll('tbody tr');
+  
+    for (i = 0; i < rows.length; i++) {
+      cells = rows[i].querySelectorAll('td');
+      var found = false;
+  
+      for (j = 2; j < cells.length; j++) {
+        txtValue = cells[j].textContent || cells[j].innerText;
+  
+        // Check specific columns for more specific search
+        if (j === 5 || j === 1 || j === 4 || j === 8 || j === 7) {
+          // Assuming columns: Gender, ID, Course, College, Year Level
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            found = true;
+            break;
+          }
+        } else {
+          // For other columns, perform a general search
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            found = true;
+            break;
+          }
+        }
+      }
+  
+      rows[i].style.display = found ? '' : 'none';
+    }
+  }  
+</script>
 {% endblock %}

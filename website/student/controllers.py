@@ -10,10 +10,8 @@ import re
 
 @student.route('/students')
 def view_studs():
-    #students = models.Student.all()
     students = Student.get()
     courses = Course.all()
-    
 
     return render_template("students.html", studentdetails=students, courses = courses)
 
@@ -22,7 +20,7 @@ def add_student():
     form = studentForm()
     existing_courses = Course.all()
 
-    course_choices = [(course.code, f"{course.code} - {course.name}") for course in existing_courses]
+    course_choices = [(course[0], f"{course[0]} - {course[1]}") for course in existing_courses]
     form.course.choices = course_choices
 
     if form.validate_on_submit():
@@ -70,18 +68,18 @@ def edit_student(id):
                 checkID = Student.check_id(form.id.data)
                 if checkID:
                     flash('ID already exists! Try another one!', category='error')
+                    return redirect('/students')
             
             # Upload image to Cloudinary
             upload_result = upload(form.pic.data, folder='SSIS')
-            pic = upload_result['secure_url']
-            student = Student(id=form.id.data, pic=pic, fname=form.fname.data, lname=form.lname.data, course=form.course.data, gender=form.gender.data, level=form.level.data)
+            new_pic = upload_result['secure_url']
+            student = Student(id=form.id.data, pic=new_pic, fname=form.fname.data, lname=form.lname.data, course=form.course.data, gender=form.gender.data, level=form.level.data)
             student.edit(id)
-            print(stud[1])
-            public_id = Student.get_public_id_from_url(stud[1])
-            print(public_id)
-            result = uploader.destroy(public_id)
+            public_id = Student.get_public_id_from_url(pic)
+            if 'static' not in pic:
+                print(public_id)
+                result = uploader.destroy(public_id)
             
-                        
             flash('Student edited successfully!', category='success')
             if 'result' in result and result['result'] == 'ok':
                 print(f"Deleted file {stud[1]} from Cloudinary successfully.")
@@ -96,6 +94,7 @@ def edit_student(id):
                 checkID = Student.check_id(form.id.data)
                 if checkID:
                     flash('ID already exists! Try another one!', category='error')
+                    return redirect('/students')
             
             student = Student(id=form.id.data, fname=form.fname.data, lname=form.lname.data, course=form.course.data, gender=form.gender.data, level=form.level.data)
             student.edit_without(id)     
@@ -109,8 +108,6 @@ def edit_student(id):
     form.lname.data = stud[3]
     form.course.data = stud[4]
     form.gender.data = stud[5]
-    print(f"stud[6]: {stud[6]}")
-    print(f"form.level.choices: {form.level.choices}")
     form.level.data = stud[6]
 
 
@@ -125,7 +122,8 @@ def delete_student(id):
         print(pic)
         public_id = Student.get_public_id_from_url(pic)
         print(public_id)
-        result = uploader.destroy(public_id)
+        if 'static' not in pic:
+                result = uploader.destroy(public_id)
         student.delete()
         if 'result' in result and result['result'] == 'ok':
             print(f"Deleted file {pic} from Cloudinary successfully.")
@@ -142,6 +140,6 @@ def delete_student(id):
 @student.route('/view/<string:id>', methods=['GET'])
 def read(id):
     student = Student.view(id)
-    print(student)
+    #print(student)
 
     return render_template("/view.html", student=student)

@@ -38,7 +38,7 @@ class Student(object):
     
     def search(key):
         cur = mysql.connection.cursor()
-        studquery = f"SELECT students.student_id, students.fname, students.lname, students.course, students.gender, students.level, colleges.code, colleges.name FROM students INNER JOIN courses ON students.course = courses.code INNER JOIN colleges ON courses.college = colleges.code WHERE students.student_id = '{key}' OR students.fname LIKE '%{key}%' OR students.lname LIKE '%{key}%' OR students.course = '{key}' OR students.gender = '{key}' OR students.level = '{key}' OR colleges.code = '{key}' OR colleges.name LIKE '{key}'"
+        studquery = f"SELECT students.student_id, students.fname, students.lname, students.course, students.gender, students.level, colleges.code, colleges.name, students.pic FROM students INNER JOIN courses ON students.course = courses.code INNER JOIN colleges ON courses.college = colleges.code WHERE students.student_id = '{key}' OR students.fname LIKE '%{key}%' OR students.lname LIKE '%{key}%' OR students.course = '{key}' OR students.gender = '{key}' OR students.level = '{key}' OR colleges.code = '{key}' OR colleges.name LIKE '{key}'"
         cur.execute(studquery)
         results = cur.fetchall()
         cur.close()
