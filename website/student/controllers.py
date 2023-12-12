@@ -58,6 +58,8 @@ def edit_student(id):
     existing_courses = Course.all()
     stud = Student.fetch(id)
 
+    pic = stud[1]
+
     course_choices = [(course[0], f"{course[0]} - {course[1]}") for course in existing_courses]
     form.course.choices = course_choices
 
@@ -80,7 +82,7 @@ def edit_student(id):
                 print(public_id)
                 result = uploader.destroy(public_id)
             
-            flash('Student edited successfully!', category='success')
+            flash('Student editted successfully!', category='success')
             if 'result' in result and result['result'] == 'ok':
                 print(f"Deleted file {stud[1]} from Cloudinary successfully.")
                     
@@ -103,7 +105,6 @@ def edit_student(id):
             return redirect('/students')
 
     form.id.data = stud[0]
-    pic = stud[1]
     form.fname.data = stud[2]
     form.lname.data = stud[3]
     form.course.data = stud[4]
@@ -120,18 +121,16 @@ def delete_student(id):
         student = Student(id=id)
         pic = Student.get_pic(id)
         print(pic)
-        public_id = Student.get_public_id_from_url(pic)
+        public_id = Student.get_public_id_from_url(pic[0])
         print(public_id)
-        if 'static' not in pic:
-                result = uploader.destroy(public_id)
-        student.delete()
-        if 'result' in result and result['result'] == 'ok':
-            print(f"Deleted file {pic} from Cloudinary successfully.")
-                    
-        else:
-            print(f"Failed to delete file {public_id} from Cloudinary. Result: {result}")
+        if 'static' not in pic[0]:
+            result = uploader.destroy(public_id)
+            if 'result' in result and result['result'] == 'ok':
+                print(f"Deleted file {pic} from Cloudinary successfully.")          
+            else:
+                print(f"Failed to delete file {public_id} from Cloudinary. Result: {result}")
         flash('Student deleted successfully', 'success')
-        
+        student.delete()
     else:
         flash('Failed to delete the student', 'error')
 
