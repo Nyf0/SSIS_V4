@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Colleges{% endblock %}
+{% block content %}
+<a href="/add-college">
+  <div class="floating-icon">
+    <i class="fa fa-solid fa-plus"></i>
+  </div>
+</a>
+<p> </p>
+
+<!-- Add the search bar -->
+<div class="mb-3">
+  <input type="text" id="searchInput" class="form-control" placeholder="Search...">
+</div>
+
+<table class="table" id="colleges">
+  <thead>
+    <tr>
+      <th scope="col">College code</th>
+      <th scope="col">College Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>  
+    {% for detail in collegedetails %}  
+    <tr>
+      <form method="post" action="/edit-college" onsubmit="return confirmATION('{{detail[0]}}')">
+        <td><input type="hidden" name="newcode" value="{{detail[0]}}"><div contenteditable="true">{{detail[0]}}</div></td>
+        <td hidden><input type="hidden" name="code" value="{{detail[0]}}">{{detail[0]}}</td>
+        <td><input type="hidden" name="name" value="{{detail[1]}}"><div contenteditable="true">{{detail[1]}}</div></td>
+        <td>
+          <button type="submit" class="btn btn-warning">Edit</button>
+          <form method="post">
+            <input type="hidden" name="college_code" value="{{detail[0]}}">
+            <button type="submit" formaction="/delete-college" onsubmit="return confirmATION('{{detail[0]}}')" class="btn btn-danger">Delete</button>
+          </form>
+        </td>            
+      </form>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function confirmATION(collegeCode) {
+      if (confirm('Are you sure you want to modify this college permanently?')) {
+          // If the user confirms, let the form submission proceed.
+          return true;
+      } else {
+          // If the user cancels, prevent the form submission.
+          return false;
+      }
+  }
+
+  $(document).ready(function() {
+    $("#searchInput").on("input", function() {
+      var searchText = $(this).val().toUpperCase();
+      $("#colleges tbody tr").each(function() {
+        var rowText = $(this).text().toUpperCase();
+        if (rowText.includes(searchText)) {
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
+    });
+  });
+</script>
+
+{% endblock %}

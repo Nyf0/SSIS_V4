@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Courses{% endblock %}
+{% block content %}
+<a href="/add-course">
+    <div class="floating-icon">
+        <i class="fa fa-solid fa-plus"></i>
+    </div>
+</a>
+<br>
+
+<form method="post">
+    <div class="mb-3 d-flex">
+        <input type="text" id="searchInput" class="form-control" name="search-course" placeholder="Search...">
+        <button type="submit" class="btn btn-outline-primary ml-2" formaction="/course-search">Search</button>
+    </div>
+</form>
+
+<table class="table" id="courses">
+    <thead>
+        <tr>
+            <th scope="col">Course code</th>
+            <th scope="col">Course Name</th>
+            <th scope="col">College</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for detail in coursedetails %}
+        <tr>
+            <form method="post" action="/edit-course" onsubmit="return confirmATION('{{detail[0]}}')">
+                <td><input type="hidden" name="newcode" value="{{detail[0]}}"><div contenteditable="true">{{detail[0]}}</div></td>
+                <td hidden><input type="hidden" name="code" value="{{detail[0]}}">{{detail[0]}}</td>
+                <td><input type="hidden" name="name" value="{{detail[1]}}"><div contenteditable="true">{{detail[1]}}</div></td>
+                <td>
+                    <div class="form-group">
+                        <select class="form-control" id="college" name="college">
+                            {% for college in colleges %}
+                                <option value="{{ college[0] }}" {% if college[0] == detail[2] %}selected{% endif %}>
+                                    {{ college[0] }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-warning">Edit</button>
+                    <form method="post">
+                        <input type="hidden" name="course_code" value="{{detail[0]}}">
+                        <button type="submit" formaction="/delete-course" onsubmit="return confirmATION('{{detail[0]}}')" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </form>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

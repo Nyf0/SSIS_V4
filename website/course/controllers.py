@@ -10,7 +10,7 @@ def curs():
     colleges = College.all()
     #print(colleges)
 
-    return render_template("courses.html", coursedetails=courses, colleges = colleges)
+    return render_template("/Course/courses.html", coursedetails=courses, colleges = colleges)
 
 @course.route('/add-course', methods=['GET', 'POST'])
 def add_course():
@@ -42,7 +42,7 @@ def add_course():
             else:
                 flash('College does not exist!', category='error')
 
-    return render_template("add_course.html", colleges = colleges)
+    return render_template("Course/add_course.html", colleges = colleges)
 
 @course.route('/edit-course', methods=['GET', 'POST'])
 def edit_course():
@@ -93,3 +93,12 @@ def delete_course():
         flash('Failed to delete the Course', 'error')
 
     return redirect('/courses')
+
+@course.route('/course-search', methods=['GET', 'POST'])
+def course_search():
+    if request.method == 'POST':
+        search_term = request.form.get('search-course')
+        courses = Course.search(search_term)
+        return render_template('/Course/search.html', courses=courses)
+    else:
+        return render_template('/Course/search.html', courses=None)

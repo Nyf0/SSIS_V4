@@ -6,7 +6,7 @@ from website.models.college import College
 def cols():
     colleges = College.all()
 
-    return render_template("colleges.html", collegedetails=colleges)
+    return render_template("/College/colleges.html", collegedetails=colleges)
     
 @college.route('/add-college', methods=['GET', 'POST'])
 def add_college():
@@ -25,7 +25,7 @@ def add_college():
             flash('College added successfully!', category='success')
             return redirect('/colleges')
 
-    return render_template("add_college.html")
+    return render_template("/College/add_college.html")
 
 @college.route('/edit-college', methods=['GET', 'POST'])
 def edit_college():

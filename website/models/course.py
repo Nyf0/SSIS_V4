@@ -32,7 +32,7 @@ class Course(object):
     
     def search(key):
         cur = mysql.connection.cursor()
-        corquery = f"SELECT * FROM courses WHERE code = '{key}' OR name LIKE '%{key}%' OR college LIKE '%{key}%'"
+        corquery = f"SELECT * FROM courses WHERE code='{key}' OR name LIKE '%{key}%' OR college='{key}'"
         cur.execute(corquery)
         results = cur.fetchall()
         return results

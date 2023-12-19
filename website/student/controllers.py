@@ -13,7 +13,7 @@ def view_studs():
     students = Student.get()
     courses = Course.all()
 
-    return render_template("students.html", studentdetails=students, courses = courses)
+    return render_template("/Student/students.html", studentdetails=students, courses = courses)
 
 @student.route('/students/add-student', methods=['GET', 'POST'])
 def add_student():
@@ -30,7 +30,7 @@ def add_student():
         # Check if the selected course exists
         if not Course.check_code(course_code):
             flash('Invalid course selected!', category='error')
-            return render_template("add_student.html", form=form)
+            return render_template("/Student/add_student.html", form=form)
 
         if exists:
             flash('This ID already exists!', category='error')
@@ -49,7 +49,7 @@ def add_student():
             flash('Student added successfully!', category='success')
             return redirect('/students')
 
-    return render_template("add_student.html", form=form)
+    return render_template("/Student/add_student.html", form=form)
 
 
 @student.route('/view/<string:id>/edit-student', methods=['GET', 'POST'])
@@ -112,7 +112,7 @@ def edit_student(id):
     form.level.data = stud[6]
 
 
-    return render_template("edit_student.html", form=form, pic=pic)
+    return render_template("/Student/edit_student.html", form=form, pic=pic)
     
 
 @student.route('/<string:id>/delete-student', methods=['GET', 'POST'])
@@ -142,3 +142,13 @@ def read(id):
     #print(student)
 
     return render_template("/view.html", student=student)
+
+@student.route('/student-search', methods=['GET', 'POST'])
+def student_search():
+    if request.method == 'POST':
+        search_term = request.form.get('search-stud')
+        students = Student.search(search_term)
+        print(students)
+        return render_template('/Student/search.html', students=students)
+    else:
+        return render_template('/Student/search.html', students=None)

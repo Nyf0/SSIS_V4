@@ -90,8 +90,13 @@
                 </button>
             </div>
         </div>
+        <br>
+        <br>
+        {% for error in form.pic.errors %}
+            <div><span class="text-danger">{{ error }}</span></div>
+        {% endfor %}
     </div>
-
+<br>
 <button type="submit" class="btn btn-primary" id="submitBtn">Submit</button>
 
 </form>

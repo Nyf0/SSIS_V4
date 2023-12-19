@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Courses{% endblock %}
+{% block content %}
+<br>
+<form method="post">
+    <div class="mb-3 d-flex">
+        <input type="text" id="searchInput" class="form-control" name="search-course" placeholder="Search...">
+        <button type="submit" class="btn btn-outline-primary ml-2" formaction="/course-search">Search</button>
+    </div>
+</form>
+
+<table class="table" id="courses">
+    <thead>
+        <tr>
+            <th scope="col">Course code</th>
+            <th scope="col">Course Name</th>
+            <th scope="col">College</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for detail in courses %}
+        <tr>
+                <td>{{detail[0]}}</td>
+                <td>{{detail[1]}}</td>
+                <td>{{detail[2]}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
