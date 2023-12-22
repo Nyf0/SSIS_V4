@@ -34,8 +34,12 @@ def add_student():
 
         if exists:
             flash('This ID already exists!', category='error')
+            return render_template("/Student/add_student.html", form=form)
         else:
             if form.pic.data:
+                print("File Size:", len(form.pic.data.read()))
+                print("File Content Type:", form.pic.data.content_type)
+                form.pic.data.seek(0)  # Reset file pointer to the beginning
                 # Upload image to Cloudinary
                 upload_result = upload(form.pic.data, folder='SSIS')
                 pic = upload_result['secure_url']

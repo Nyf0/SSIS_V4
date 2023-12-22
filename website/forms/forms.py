@@ -13,7 +13,7 @@ def validate_file_size(form, field):
     # Check if the file size is less than or equal to 9MB
     max_size = 2 * 1024 * 1024  # 9MB in bytes
     if field.data and len(field.data.read()) > max_size:
-        raise ValidationError('File size must be less than or equal to 9MB')
+        raise ValidationError('File size must be less than or equal to 2MB')
     
 def validate_pic(form, field):
     if field.data:
